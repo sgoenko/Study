@@ -16,33 +16,31 @@ public class MyStream<T> {
 
 	public void forEach(Consumer<T> consumer) {
 		isTerminated = true;
-		generationFunction.generate(consumer::accept);
+		generationFunction.generate(consumer);
 	}
 
 	public MyStream<T> union(Collection<T> collection) {
-		return new MyStream<>(generationContextFunction -> {
-			generationFunction.generate(generationContextFunction);
-			collection.forEach(generationContextFunction::emit);
+		return new MyStream<>(consumer -> {
+			generationFunction.generate(consumer);
+			collection.forEach(consumer);
 		});
 	}
 
 	public MyStream<T> filter(Predicate<T> predicate) {
-		return new MyStream<>(generationContextFunction -> generationFunction.generate(value -> {
+		return new MyStream<>(consumer -> generationFunction.generate(value -> {
 			if (predicate.test(value)) {
-				generationContextFunction.emit(value);
+				consumer.accept(value);
 			}
 		}));
 	}
 
 	public <R> MyStream<R> map(Function<T, R> function) {
 		return new MyStream<>(generationContextFunction -> generationFunction.generate(
-				value -> generationContextFunction.emit(function.apply(value))
+				value -> generationContextFunction.accept(function.apply(value))
 		));
 	}
 
 	public static <T> MyStream<T> of(Collection<T> collection) {
-		return new MyStream<>(generationContextFunction ->
-				collection.forEach(generationContextFunction::emit)
-		);
+		return new MyStream<>(collection::forEach);
 	}
 }
