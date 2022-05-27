@@ -8,39 +8,41 @@ import java.util.function.Predicate;
 public class MyStream<T> {
 
 	private final GenerationFunction<T> generationFunction;
+	private boolean isTerminated = false;
 
-	private MyStream(GenerationFunction<T> generator) {
-		this.generationFunction = generator;
+	private MyStream(GenerationFunction<T> generationFunction) {
+		this.generationFunction = generationFunction;
 	}
 
 	public void forEach(Consumer<T> consumer) {
+		isTerminated = true;
 		generationFunction.generate(consumer::accept);
 	}
 
 	public MyStream<T> union(Collection<T> collection) {
-		return new MyStream<>(generatorContext -> {
-			generationFunction.generate(generatorContext);
-			collection.forEach(generatorContext::emit);
+		return new MyStream<>(generationContextFunction -> {
+			generationFunction.generate(generationContextFunction);
+			collection.forEach(generationContextFunction::emit);
 		});
 	}
 
 	public MyStream<T> filter(Predicate<T> predicate) {
-		return new MyStream<>(generatorContext -> generationFunction.generate(value -> {
+		return new MyStream<>(generationContextFunction -> generationFunction.generate(value -> {
 			if (predicate.test(value)) {
-				generatorContext.emit(value);
+				generationContextFunction.emit(value);
 			}
 		}));
 	}
 
 	public <R> MyStream<R> map(Function<T, R> function) {
-		return new MyStream<>(generatorContext -> generationFunction.generate(
-				value -> generatorContext.emit(function.apply(value))
+		return new MyStream<>(generationContextFunction -> generationFunction.generate(
+				value -> generationContextFunction.emit(function.apply(value))
 		));
 	}
 
 	public static <T> MyStream<T> of(Collection<T> collection) {
-		return new MyStream<>(generatorContext ->
-				collection.forEach(generatorContext::emit)
+		return new MyStream<>(generationContextFunction ->
+				collection.forEach(generationContextFunction::emit)
 		);
 	}
 }
