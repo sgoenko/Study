@@ -5,13 +5,13 @@ import java.util.Arrays;
 public class NonBlockingArrayList<T> {
 	private volatile Object[] content = new Object[0];
 
-	NonBlockingArrayList<T> add(T item) {
+	public boolean add(T item) {
 		return add(content.length, item);
 	}
 
-	NonBlockingArrayList<T> add(int index, T item) {
+	public boolean add(int index, T item) {
 		if (index < 0) {
-			throw new IllegalArgumentException();
+			return false;
 		}
 		boolean needsModification = index > content.length - 1;
 		if (!needsModification) {
@@ -26,28 +26,29 @@ public class NonBlockingArrayList<T> {
 			renewed[index] = item;
 			content = renewed;
 		}
-		return this;
+		return true;
 	}
 
-	NonBlockingArrayList<T> remove(int index) {
+	public T remove(int index) {
 		if (index < 0 || index >= content.length) {
-			throw new IllegalArgumentException();
+			return null;
 		}
 		int size = content.length - 1;
 		final Object[] renewed = new Object[size];
+		Object o = content[index];
 		System.arraycopy(content, 0, renewed, 0, index);
-		if (index + 1 < size) {
+		if (index + 1 <= size) {
 			System.arraycopy(content, index + 1, renewed, index, size - index);
 		}
 		content = renewed;
-		return this;
+		return (T) o;
 	}
 
-	T get(int index) {
+	public T get(int index) {
 		return (T) content[index];
 	}
 
-	int size() {
+	public int size() {
 		return content.length;
 	}
 }
