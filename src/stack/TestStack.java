@@ -2,7 +2,8 @@ package stack;
 
 public class TestStack {
 	public static void main(String[] args) throws InterruptedException {
-		NonBlockingStack<Integer> nonBlockingStack = new NonBlockingStack<>();
+//		NonBlockingStack<Integer> nonBlockingStack = new NonBlockingStack<>();
+		LockStack<Integer> nonBlockingStack = new LockStack<>();
 
 		Thread threadA = new Thread( () -> {
 			for (int i = 1; i <= 10; i++) {
@@ -19,10 +20,10 @@ public class TestStack {
 		threadA.start();
 		threadB.start();
 
-//		threadA.join();
+		threadA.join();
 		threadB.join();
 
-		System.out.println(nonBlockingStack.peek());
+//		System.out.println(nonBlockingStack.peek());
 
 		Integer pop;
 		while ((pop = nonBlockingStack.pop()) != null) {
