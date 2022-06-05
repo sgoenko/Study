@@ -7,10 +7,10 @@ public class TestThread {
 
 		commonInstance.threadLocalCounter.set(5);
 
-		Thread t1 = new Thread(commonInstance);
-		Thread t2 = new Thread(commonInstance);
-		Thread t3 = new Thread(commonInstance);
-		Thread t4 = new Thread(commonInstance);
+		Thread t1 = new Thread(new RunnableDemo());
+		Thread t2 = new Thread(new RunnableDemo());
+		Thread t3 = new Thread(new RunnableDemo());
+		Thread t4 = new Thread(new RunnableDemo());
 
 		t1.start();
 		t2.start();
