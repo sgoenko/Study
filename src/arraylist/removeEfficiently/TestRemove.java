@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TestRemove {
 	//позиция, с которой удаляем
@@ -58,7 +60,7 @@ public class TestRemove {
 		System.out.println("\nВыполняем удаление через SubList...\n");
 		start = System.currentTimeMillis();
 
-		initList.subList(m - 1, m + n).clear();
+		initList.subList(m - 1, m + n - 1).clear();
 
 		finish = System.currentTimeMillis() - start;
 		System.out.println("Время удаления через саблист: " + finish);
