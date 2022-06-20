@@ -20,11 +20,11 @@ public class Solution {
 
 			if (root.left != null || root.right != null) {
 				if (root.right != null) {
-					stack.push(new Pair(root.right, currentDepth + 1));
+					stack.push(new Pair<>(root.right, currentDepth + 1));
 				}
 
 				if (root.left != null) {
-					stack.push(new Pair(root.left, currentDepth +1 ));
+					stack.push(new Pair<>(root.left, currentDepth +1 ));
 				}
 			} else {
 				if (maxDepth < currentDepth) {
