@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.function.UnaryOperator;
+
 public class SudokuSolver {
 
 	private static final int GRID_SIZE = 9;
@@ -87,8 +89,9 @@ public class SudokuSolver {
 	}
 
 	private static boolean isNumberInBox(int[][] board, int number, int row, int column) {
-		int startBoxRow = row - row % 3;
-		int startBoxColumn = column - column % 3;
+		UnaryOperator<Integer> getCell = x -> x - x % 3;
+		int startBoxRow = getCell.apply(row);
+		int startBoxColumn = getCell.apply(column);
 
 		for (int i = startBoxRow; i < startBoxRow + 3; i++) {
 			for (int j = startBoxColumn; j < startBoxColumn + 3; j++) {
