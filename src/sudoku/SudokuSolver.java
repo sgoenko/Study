@@ -6,17 +6,16 @@ public class SudokuSolver {
 
 	public static void main(String[] args) {
 		int[][] board = {
-				{7, 0, 2, 0, 5, 0, 6, 0, 0},
-				{0, 0, 0, 0, 0, 3, 0, 0, 0},
-				{1, 0, 0, 0, 0, 9, 5, 0, 0},
-				{8, 0, 0, 0, 0, 0, 0, 9, 0},
-				{0, 4, 3, 0, 0, 0, 7, 5, 0},
-				{0, 9, 0, 0, 0, 0, 0, 0, 8},
-				{0, 0, 9, 7, 0, 0, 0, 0, 5},
-				{0, 0, 0, 2, 0, 0, 0, 0, 0},
-				{0, 0, 7, 0, 4, 0, 2, 0, 3}
+				{8, 0, 0, 2, 0, 0, 9, 0, 0},
+				{0, 0, 0, 0, 9, 5, 6, 0, 0},
+				{7, 0, 1, 0, 6, 0, 0, 0, 0},
+				{5, 0, 0, 3, 0, 0, 0, 7, 0},
+				{0, 3, 0, 0, 0, 8, 0, 0, 2},
+				{0, 0, 0, 0, 0, 4, 0, 3, 0},
+				{0, 0, 0, 0, 0, 6, 0, 9, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 5},
+				{1, 0, 8, 4, 0, 0, 0, 0, 0}
 		};
-
 		if (solveBoard(board)) {
 			System.out.println("Solved successfully!");
 		} else {
@@ -93,7 +92,7 @@ public class SudokuSolver {
 
 		for (int i = startBoxRow; i < startBoxRow + 3; i++) {
 			for (int j = startBoxColumn; j < startBoxColumn + 3; j++) {
-				if (board[startBoxRow][startBoxColumn] == number) {
+				if (board[i][j] == number) {
 					return true;
 				}
 			}
