@@ -16,7 +16,7 @@ public class QuickSort {
 
 		quickSort(numbers);
 
-		System.out.println("After");
+		System.out.println("\nAfter");
 		printArray(numbers);
 	}
 
